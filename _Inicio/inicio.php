@@ -167,6 +167,9 @@
   //
   $scriptGraficoContasTotais = $util->criarGraficoPizzaData($dados, $cores, "graficoContasTotais");
   //
+  if (isset($_SESSION['mensagemChavePagto'])) {
+    $msg = $html->mostraMensagem("warning", $_SESSION['mensagemChavePagto']);
+  }
   //
   //Abre o arquivo html e Inclui mensagens e trechos php
   $html = $html->buscaHtml(true);

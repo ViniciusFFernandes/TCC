@@ -43,6 +43,7 @@
                       <span style= "white-space: nowrap;"><input type="checkbox" id="pess_fornecedor" name="pess_fornecedor" ##CheckFornecedor## value="SIM">&nbsp;<label for='pess_fornecedor' style="font-weight: normal !important;"> Fornecedor </label></span>&nbsp;&nbsp;&nbsp;
                       <span style= "white-space: nowrap;"><input type="checkbox" id="pess_funcionario" name="pess_funcionario" ##CheckFuncionario## value="SIM">&nbsp;<label for='pess_funcionario' style="font-weight: normal !important;"> Funcionario </label></span>&nbsp;&nbsp;&nbsp;
                       <span style= "white-space: nowrap;"><input type="checkbox" id="pess_associado" name="pess_associado" ##CheckAssociado## value="SIM">&nbsp;<label for='pess_associado' style="font-weight: normal !important;"> Associado </label></span>
+                      ##CheckVip##
                     </div>
                     ##divCodCliente##
                 </div>
@@ -115,13 +116,21 @@
                   <div class="row">
                     <div class="col-md-12 col-sm-12 col-12">
                       <input type="hidden" class="form-control" id="operacao" name="operacao" value="">
-                    <center>
-                      <button type="button" onclick="testaDados()" class="btn btn-success mb-1">Gravar</button>
-                      <button type="button" onclick="novoCadastro()" class="btn btn-info mb-1">Novo</button>
-                      ##btnExcluir##
-                      ##btnImprimir##
-                      <span id="btnAtivarInativar">##btnAtivarInativar##</span>
-                    </center>
+                      <center>
+                        <button type="button" onclick="testaDados()" class="btn btn-success mb-1">Gravar</button>
+                        <button type="button" onclick="novoCadastro()" class="btn btn-info mb-1">Novo</button>
+                        ##btnExcluir##
+                        ##btnImprimir##
+                        <span id="btnAtivarInativar">##btnAtivarInativar##</span>
+                      </center>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-12 col-sm-12 col-12">
+                      <center>
+                        ##btnGerarChave##
+                      </center>
+                    </div>
                   </div>
                 </div>
               </form>
@@ -159,6 +168,31 @@
                     </div>
                     <div class="col-md-6 col-sm-6 col-12">
                       <button type="button" class="btn btn-primary" onclick="imprimir('pessoas_recibo_cesta.php')">Recibo de Cesta Básica</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="modal fade" id="modelosChave" tabindex="-1" role="dialog" aria-labelledby="chaveLabel">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                  <h5 class="modal-title font-weight-bold text-primary" id="tituloLabel">Chave de Pagamento</h5>
+                </div>
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-md-12 col-sm-12 col-12" id="conteudoChave" align="center">
+                      Chave de acesso atual <br> ##pess_chave_pagto##
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-12 col-sm-12 col-12" align="center">
+                      <button type="button" class="btn btn-primary" onclick="gerarChaveAcesso('padrao')">Gerar Chave Padrão</button>
+                      &nbsp;&nbsp;&nbsp;
+                      <button type="button" class="btn btn-warning" onclick="gerarChaveAcesso('temporaria')">Gerar Chave Temporário</button>
                     </div>
                   </div>
                 </div>

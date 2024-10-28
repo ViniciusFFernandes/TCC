@@ -1,9 +1,0 @@
-<?php $SERVIDOR = 'localhost';
-$PORTA = '3306';
-$USUARIO = 'root';
-$SENHA = 'root';
-$DB_NAME = 'vWeb';
-define(LOGO_EMPRESA, 'padrao.png');
-define(NOME_SISTEMA, 'vWeb');
-$FERIADOS = '2021-01-01,2021-02-15,2021-02-16,2021-04-02,2021-04-21,2021-05-01,2021-06-03,2021-09-07,2021-10-12,2021-11-02,2021-11-15,2021-15-25';
- ?>

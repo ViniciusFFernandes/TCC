@@ -112,6 +112,31 @@ function validarLogin(){
   }
 }
 
+function gerarChaveAcesso(tipo){
+  var _pess_cod_cliente = $("#pess_cod_cliente").val();
+  //
+  if(_pess_cod_cliente == ''){
+    alertaPequeno("Codigo do cliente não localizado!");
+    return;
+  }
+  //
+  $('#modelosChave').modal('show');
+  //
+  $("#conteudoChave").html("Gerando nova chave de pagamento, aguarde... <img src='../icones/carregando_engrenagens.gif' width='25px;'><br><span class='Obs_claro'>Está operação pode levar alguns minutos</span><br>");
+  //
+  $.post("pessoas_grava.php",
+    {operacao: "geraChavePagto", pess_cod_cliente: _pess_cod_cliente, tipo: tipo},
+    function(data){
+    //alert(data);
+    //return;
+      if(data.chavePagto != ""){
+        $("#conteudoChave").html("Nova chave de pagamento gerada com sucesso " + data.chavePagto + "<br><span class='Obs_claro'>Chave armazenada com sucesso!</span><br>");
+      }else{
+        $("#conteudoChave").html("Erro gerar chave de acesso!<br><span class='Obs_claro'>Nenhuma conta paga ou cliente não localizado!</span><br>");
+      }
+    }, "json");
+}
+
 function verificaUser(){
   //alert("aosifnsdgoa");
   var _idpessoas = $("#id_cadastro").val();

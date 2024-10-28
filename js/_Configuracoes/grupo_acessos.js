@@ -31,7 +31,7 @@ function ativarDesativar(operacao, idgrupos_acessos_programas){
   }
   $("#btn_" + idgrupos_acessos_programas).html('<img src="../icones/carregando_engrenagens.gif" width="34px">');
   $.post("grupos_acessos_grava.php", 
-  {operacao: 'ativarDesativarProgram', gap_executa: executa, idgrupos_acessos_programas: idgrupos_acessos_programas}, 
+  {operacao: 'ativarDesativarPrograma', gap_executa: executa, idgrupos_acessos_programas: idgrupos_acessos_programas}, 
   function(data){
     if(data.retorno == 'ok'){
       $("#btn_" + idgrupos_acessos_programas).html(novoBtn);

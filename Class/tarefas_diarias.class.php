@@ -7,14 +7,16 @@
 		private $util;
 		private $atualizacao;
 		private $email;
+		private $usuarios;
 
-		function __construct($parametros, $db, $util, $atualizacao, $email){
+		function __construct($parametros, $db, $util, $atualizacao, $email, $usuarios){
 			$this->data_atual = date('Y-m-d');
 			$this->db = $db;
 			$this->util = $util;
 			$this->parametros = $parametros;
 			$this->atualizacao = $atualizacao;
 			$this->email = $email;
+			$this->usuarios = $usuarios;
 			$this->ultima_execucao = $this->parametros->buscaValor("sistema: data da ultima execucao de tarefas diarias");
 		}
 
@@ -36,6 +38,13 @@
      		$this->buscaAtualizacoes();
 			$this->emailContaPagVencida();
 			$this->emailContaRecVencida();
+			$this->buscaChavePagto();
+		}
+
+		private function buscaChavePagto(){
+			if(SISTEMA_SAC != "SIM"){
+				$this->usuarios->busca_chave_pagto();
+			}
 		}
 
 		private function apagaHistoricoAtualizacao(){

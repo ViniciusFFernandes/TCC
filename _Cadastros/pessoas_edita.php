@@ -33,6 +33,14 @@
     $divCodCliente = '<div class="col-md-4 col-sm-4 col-12 pb-3">';
       $divCodCliente .= '<input type="text" class="form-control" id="pess_cod_cliente" name="pess_cod_cliente" value="##pess_cod_cliente##" placeholder="Codigo Cliente" >';
     $divCodCliente .= '</div>';
+    //
+    $checkVip = '&nbsp;&nbsp;&nbsp;<span style= "white-space: nowrap;"><input type="checkbox" id="pess_vip" name="pess_vip" ##CheckVip## value="SIM">&nbsp;<label for="pess_vip" style="font-weight: normal !important;"> Vip </label></span>';
+    $checkVip = str_replace("##CheckVip##", $html->defineChecked($reg['pess_vip']), $checkVip);
+    //
+    if(!empty($reg['idpessoas']) && !empty($reg['pess_cod_cliente'])){ 
+      $btnGerarChave = '<button type="button" class="btn btn-primary mb-1" data-target="#modelosChave"  data-toggle="modal">Chave de Acesso</button>';
+    }
+
   }
   //
   if(!empty($reg['idpessoas'])){ 
@@ -63,11 +71,19 @@
     }else{
       $btnAtivarInativar = "<button type='button' class='btn btn-default mb-1' onclick=\"ativoInativo('N')\">Ativar</button>";
     }
+    //
+    $pess_chave_pagto = $reg['pess_chave_pagto'];
+    if(empty($pess_chave_pagto)){
+      $pess_chave_pagto = '<span class="Obs_claro">*Em Branco*</span>';
+    }
   }
   //
-  if (isset($_SESSION['mensagem'])) {
+   if (isset($_SESSION['mensagem'])) {
     $msg = $html->mostraMensagem($_SESSION['tipoMsg'], $_SESSION['mensagem']);
     unset($_SESSION['mensagem'], $_SESSION['tipoMsg']);
+  }
+  if (isset($_SESSION['mensagemChavePagto'])) {
+    $msg .= $html->mostraMensagem("warning", $_SESSION['mensagemChavePagto']);
   }
   //
   //Abre o arquivo html e Inclui mensagens e trechos php
@@ -83,6 +99,7 @@
   $html = str_replace("##CheckFornecedor##", $checkFornecedor, $html);
   $html = str_replace("##CheckFuncionario##", $checkFuncionario, $html);
   $html = str_replace("##CheckAssociado##", $checkAssociado, $html);
+  $html = str_replace("##CheckVip##", $checkVip, $html);
   $html = str_replace("##id_cadastro##", $reg['idpessoas'], $html);
   $html = str_replace("##pess_nome##", $reg['pess_nome'], $html);
   $html = str_replace("##pess_cpf##", $reg['pess_cpf'], $html);
@@ -98,10 +115,12 @@
   $html = str_replace("##pess_bairro##", $reg['pess_bairro'], $html);
   $html = str_replace("##pess_cep##", $reg['pess_cep'], $html);
   $html = str_replace("##pess_usuario##", $reg['pess_usuario'], $html);
+  $html = str_replace("##pess_chave_pagto##", $pess_chave_pagto, $html);
   $html = str_replace("##divCodCliente##", $divCodCliente, $html);
   $html = str_replace("##pess_cod_cliente##", $reg['pess_cod_cliente'], $html);
   $html = str_replace("##btnExcluir##", $btnExcluir, $html);
   $html = str_replace("##btnImprimir##", $btnImprimir, $html);
+  $html = str_replace("##btnGerarChave##", $btnGerarChave, $html);
   $html = str_replace("##btnAtivarInativar##", $btnAtivarInativar, $html);
   echo $html;
   exit;

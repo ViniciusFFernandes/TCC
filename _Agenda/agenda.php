@@ -3,7 +3,6 @@
   //
   //
   //Rotinas para agenda
-
   //
   //Abre o arquivo html e Inclui mensagens e trechos php
   $html = $html->buscaHtml(true);

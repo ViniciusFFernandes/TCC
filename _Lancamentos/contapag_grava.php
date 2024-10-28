@@ -93,6 +93,12 @@ $paginaRetorno = 'contapag_edita.php';
     //
     $db->gravarInserir($dados, true);
     //
+    if($db->erro()){
+      $db->rollBack();
+      $html->mostraErro("Erro ao gravar conta<br>Operação cancelada!<br>" . $db->getErro());
+      exit;
+    }
+    //
     if ($_POST['id_cadastro'] > 0) {
       $id = $_POST['id_cadastro'];
       $operacaoHistorioco = "Alteração";

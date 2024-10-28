@@ -54,9 +54,12 @@
                           </span>';
   }
   //
-  if (isset($_SESSION['mensagem'])) {
+   if (isset($_SESSION['mensagem'])) {
     $msg = $html->mostraMensagem($_SESSION['tipoMsg'], $_SESSION['mensagem']);
     unset($_SESSION['mensagem'], $_SESSION['tipoMsg']);
+  }
+  if (isset($_SESSION['mensagemChavePagto'])) {
+    $msg .= $html->mostraMensagem("warning", $_SESSION['mensagemChavePagto']);
   }
   //
   //Abre o arquivo html e Inclui mensagens e trechos php

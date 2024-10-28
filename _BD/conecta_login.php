@@ -80,28 +80,82 @@ if ($_POST['operacao'] == "Sair") {
 	exit;
 }
 
-//
-//Caso tente acessar as paginas pela url e nao esteja logado
-if (!$_SESSION['logado']) {
-	$html->mostraErro("Você não esta logado.<br>Para continuar é necessário que faça o login!", "../index.php");
-	exit;
-}
+if($IGNORA_SESSAO != "SIM"){
+	//
+	//Caso tente acessar as paginas pela url e nao esteja logado
+	if (!$_SESSION['logado']) {
+		$html->mostraErro("Você não esta logado.<br>Para continuar é necessário que faça o login!", "../index.php");
+		exit;
+	}
 
-if (((time() - $_SESSION['ultima_atividade']) > 1800) && ($_SESSION['permanece_logado'] != 'SIM')) {
-    // última atividade foi mais de 10 minutos atrás
-    session_unset();     // unset $_SESSION
-    session_destroy();   // destroindo session data
+	if (((time() - $_SESSION['ultima_atividade']) > 1800) && ($_SESSION['permanece_logado'] != 'SIM')) {
+		// última atividade foi mais de 10 minutos atrás
+		session_unset();     // unset $_SESSION
+		session_destroy();   // destroindo session data
+			//
+		header('Location: ../index.php');
+		exit;
+	}
+
+	$_SESSION['ultima_atividade'] = time(); // update ultima ativ.
+	//
+	//Verifica se o ususario pode acessar a pagina atual
+	$usuarios = new Usuarios($db, $_SESSION['idusuario'], $_SESSION['idgrupos_acessos']);
+	if(!$usuarios->usuario_pode_executar()){
+		$html->mostraErro("Você não tem permissão para executar este programa!<br>Consulte um administrador do sistema!<br> Programa: " . basename($_SERVER['PHP_SELF']));
+		exit;
+	}
+	if(SISTEMA_SAC != "SIM"){
 		//
-    header('Location: ../index.php');
-	exit;
-}
-
-$_SESSION['ultima_atividade'] = time(); // update ultima ativ.
-//
-//Verifica se o ususario pode acessar a pagina atual
-$usuarios = new Usuarios($db, $util, $_SESSION['idusuario'], $_SESSION['idgrupos_acessos']);
-if(!$usuarios->usuario_pode_executar()){
-	$html->mostraErro("Você não tem permissão para executar este programa!<br>Consulte um administrador do sistema!<br> Programa: " . basename($_SERVER['PHP_SELF']));
-	exit;
+		//Limpa a mensagem sobre chave de pagamento
+		//
+		unset($_SESSION["mensagemChavePagto"]);
+		//
+		//Valida a chave de pagamento do sistema
+		//
+		$chavePagto = $parametros->buscaValor("sistema: chave de pagamento");
+		if($chavePagto == ""){
+			$chavePagto = $usuarios->busca_chave_pagto();
+		}
+		//
+		if($chavePagto != ""){
+			//
+			$dadosChave = $usuarios->le_chave_pagto($chavePagto);
+			//
+			if (strlen($chavePagto) < 44) {
+				$html->mostraErro("Chave de pagamento invalida!<br>Consulta um administrador do sistema para mais informações.", "../index.php");
+				exit;
+			}
+			//
+			// Validações se o cliente não for VIP
+			if ($dadosChave["vipPrefix"] !== "VIP") {
+				// Valida se o código do cliente é igual ao COD_CLIENTE_SAC
+				if ($dadosChave["codigoCliente"] !== str_pad(COD_CLIENTE_SAC, 10, '0', STR_PAD_LEFT)) {
+					$html->mostraErro("Chave de pagamento invalida!<br>Consulta um administrador do sistema para mais informações.", "../index.php");
+					exit;
+				}
+				//
+				// Verifica se a data de vencimento está vencida
+				if ($dadosChave["dataVencimentoTimestamp"] < $dadosChave["dataAtualTimestamp"]) {
+					//
+					if ($dadosChave["diferencaDias"] <= 30) {
+						$_SESSION["mensagemChavePagto"] = "Atenção: Sua chave de pagamento está vencida a " . intval($diferencaDias) . " dias.";
+					}else{
+						//
+						//Busca uma chave atualizar para verificar se já possui uma nova chave
+						$chavePagto = $usuarios->busca_chave_pagto();
+						$dadosChave = $usuarios->le_chave_pagto($chavePagto);
+						if($dadosChave["diferencaDias"] > 30){
+							$html->mostraErro("Chave de pagamento vencida a mais de 30 dias!<br>Consulta um administrador do sistema para mais informações.", "../index.php");
+							exit;
+						}
+					}
+				}
+			}
+		}else{
+			$_SESSION["mensagemChavePagto"] = "Atenção: Chave de pagamento não localizada.<br>Contate um administrador do sistema.";
+		}
+	}
+	//
 }
 ?>

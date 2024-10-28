@@ -130,13 +130,23 @@ function carregarEventos(){
             //
             //
             //
+            var diaTodo = "";
+            var dataFim = "";
             $.each(data.result, function(index, reg) {
                 //
+
+                diaTodo = false;
+                dataFim = reg.agen_fim;
+                if(reg.agen_fim == null){
+                    diaTodo = true;
+                    dataFim = reg.agen_inicio;
+                }
                 calendar.addEvent({
                     id: reg.idagenda, 
                     title: reg.agen_titulo,
                     start: reg.agen_inicio,
-                    end: reg.agen_fim,
+                    end: dataFim,
+                    allDay: diaTodo,
                     backgroundColor: reg.agen_cor,
                     borderColor: reg.agen_cor,
                     textColor: '#ffffff',

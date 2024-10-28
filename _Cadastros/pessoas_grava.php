@@ -142,12 +142,18 @@ $paginaRetorno = 'pessoas_edita.php';
   if ($_POST['operacao'] == 'gravar'){
     //
     if($db->retornaUmCampoID("pess_inativo", "pessoas", $_POST['id_cadastro']) == 'S'){
-      mostraErro("Você não pode alterar os dados de uma pessoa invativa<br>Operação cancelada!");
+       $html->mostraErro("Você não pode alterar os dados de uma pessoa invativa.<br>Operação cancelada!");
       exit;
     }
     //
+    if($_POST['pess_nome'] == '' || $_POST['pess_idcidades'] == ''){
+      $html->mostraErro("Você não pode incluir uma pessoa sem informar nome e cidade.<br>Operação cancelada!");
+     exit;
+    }
+    //
   	$db->setTabela("pessoas", "idpessoas");
-
+    //
+    unset($dados);
     $dados['id']                     = $_POST['id_cadastro'];
   	$dados['pess_nome'] 			       = $util->sgr($_POST['pess_nome']);
   	$dados['pess_rg'] 				       = $util->sgr($_POST['pess_rg']);
@@ -164,11 +170,17 @@ $paginaRetorno = 'pessoas_edita.php';
   	$dados['pess_fornecedor'] 		   = $util->sgr($_POST['pess_fornecedor']);
   	$dados['pess_funcionario'] 		   = $util->sgr($_POST['pess_funcionario']);
   	$dados['pess_associado'] 		     = $util->sgr($_POST['pess_associado']);
+  	$dados['pess_vip'] 		           = $util->sgr($_POST['pess_vip']);
   	$dados['pess_idempresas'] 		   = $util->sgr($_POST['pess_idempresas']);
   	$dados['pess_cod_cliente'] 		   = $util->sgr($_POST['pess_cod_cliente']);
-
+    //
     $db->gravarInserir($dados, true);
-
+    //
+    if($db->erro()){
+      $html->mostraErro("Erro ao gravar pessoa<br>Operação cancelada!<br>" . $db->getErro());
+      exit;
+    }
+    //
   	if ($_POST['id_cadastro'] > 0) {
       $id = $_POST['id_cadastro'];
     }else{
@@ -176,26 +188,36 @@ $paginaRetorno = 'pessoas_edita.php';
     }
     header('location:../_Cadastros/' . $paginaRetorno . '?id_cadastro=' . $id);
     exit;
-}
+  }
 
-if($_POST['operacao'] == "inativaAtivaPessoa"){
-  $db->setTabela("pessoas", "idpessoas");
+  if($_POST['operacao'] == "inativaAtivaPessoa"){
+    $db->setTabela("pessoas", "idpessoas");
 
-  $dados['id']                     = $_POST['idpessoas'];
-  $dados['pess_inativo'] 		     = $util->sgr($_POST['pess_inativo']);
+    $dados['id']                     = $_POST['idpessoas'];
+    $dados['pess_inativo'] 		     = $util->sgr($_POST['pess_inativo']);
 
-  $db->gravarInserir($dados, false);
-}
+    $db->gravarInserir($dados, false);
+  }
 
-if ($_POST['operacao'] == "excluiCad") {
+  if ($_POST['operacao'] == "excluiCad") {
     $db->setTabela("pessoas", "idpessoas");
     $db->excluir($_POST['id_cadastro'], "Excluir");
     if($db->erro()){
-        $html->mostraErro("Erro ao excluir cadastro<br>Operação cancelada!");
+        $html-> $html->mostraErro("Erro ao excluir cadastro<br>Operação cancelada!");
         exit;
     }
     header('location:../_Cadastros/' . $paginaRetorno);
     exit;
   }
 
- ?>
+  if ($_POST['operacao'] == "geraChavePagto") {
+    //
+    $novaChavePagto = $usuarios->gerar_chave_pagto($_POST["pess_cod_cliente"], $_POST["tipo"]);
+    //
+    $dados['chavePagto'] = $novaChavePagto;
+    //
+    echo json_encode($dados);
+    exit;
+  }
+
+?>

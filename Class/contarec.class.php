@@ -1,9 +1,9 @@
 <?php
     require_once("util.class.php");
     require_once("parametros.class.php");
-    require_once("util.class.php");
     require_once("html.class.php");
     require_once("cc.class.php");
+    require_once("usuarios.class.php");
 
     class Contarec{
         private $db;
@@ -11,6 +11,7 @@
 		private $parametros;
 		private $html;
 		private $cc;
+        private $usuario;
 
 		function __construct($db){
 			$this->db = $db;
@@ -18,6 +19,7 @@
 			$this->parametros = new Parametros($db);
 			$this->html = new html($db);
 			$this->cc = new cc($db);
+			$this->usuario = new Usuarios($this->db);
 		}
 
         public function gerarHistorio($idconta, $operacao, $valor, $idoperador, $data = '', $idmeio_pagto = '', $idcc = ''){
@@ -41,7 +43,7 @@
             //
             $valor = $this->util->vgr($valor);
             //
-            $sql = "SELECT * FROM contarec WHERE idcontarec = " . $idconta;
+            $sql = "SELECT * FROM contarec JOIN pessoas ON (ctrc_idcliente = idpessoas) WHERE idcontarec = " . $idconta;
             $reg = $this->db->retornaUmReg($sql);
             //
             if($reg['ctrc_situacao'] != 'Pendente' && $reg['ctrc_situacao'] != 'QParcial'){
@@ -97,6 +99,10 @@
             //
             if($this->parametros->buscaValor("sistema: gerar lancamentos bancarios pelas contas") == 'SIM'){
                 $this->cc->gerarLancamento($idconta, "C", $valor, $idoperador, $data, $idmeio_pagto, $idcc, "contarec", "Recebimento da conta");
+            }
+            //
+            if(SISTEMA_SAC == "SIM"){
+                $this->usuario->gerar_chave_pagto($reg["pess_cod_cliente"]);
             }
             //
         }

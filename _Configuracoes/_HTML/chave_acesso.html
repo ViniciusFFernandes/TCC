@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="pt">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+   	<link rel="icon" type="image/x-icon" href="../imagens/favicon.ico">
+   	<title>##nomeSistema##</title>
+
+    ##includes##
+    <script src="../js/_Configuracoes/chave_acesso.js"></script>
+    <script type="text/javascript">
+       window.setTimeout(function(){
+          document.getElementById("botao_alerta").click();
+       }, 3000);
+    </script>
+  </head>
+
+  <body id="page-top" class="sidebar-toggled">
+    <div id="wrapper">
+      ##Menu##
+      <div id="content-wrapper" class="d-flex flex-column">
+        <!-- Main Content -->
+        <div id="content">
+          <!-- Topbar -->
+          ##topBar##
+            <div class="container-fluid">
+                <div class="card shadow mb-4 border-left-success">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">Chave de Acesso</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                        <div class="col-md-6 col-sm-6 col-12">
+                            <label>Chave de Acesso Atual</label>
+                            <input type="text" class="form-control" id="chavePgtoSistema" name="chavePgtoSistema" value="##chavePgtoSistema##" placeholder="Chave de Acesso Atual" readonly>
+                        </div>
+                        <div class="col-md-6 col-sm-6 col-12">
+                            <label for="Nome">Ultima Chave de Acesso Gerada</label>
+                            <input type="text" class="form-control" id="chavePgtoSac" name="chavePgtoSac" value="##chavePgtoSac##" placeholder="Ultima Chave de Acesso Gerada" readonly>
+                        </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                        <div class="col-md-12 col-sm-12 col-12">
+                            <input type="hidden" class="form-control" id="operacao" name="operacao" value="">
+                            <center id="btnAtualizar">
+                            ##btnAtualizar##
+                            </center>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+      </div>
+    </div>
+    <a class="scroll-to-top rounded" href="#page-top" class="sidebar-toggled">
+      <i class="fas fa-angle-up"></i>
+  </a>
+  </body>
+</html>
+

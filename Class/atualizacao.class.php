@@ -4,7 +4,7 @@
 	require_once("util.class.php");
 
 	class Atualizacao {
-		private $ultimaVersao = 1.13;
+		private $ultimaVersao = 1.16;
 		private $db;
 		private $parametros;
 		private $util;
@@ -78,9 +78,48 @@
 		//Abaixo estão as versões do sistema//
 		//////////////////////////////////////
 
+		private function versao_01_16(){
+			//
+			// 27/10/2024 Vinicius
+			//
+			$this->cadastraPrograma("chave_acesso.php", 'Sistema', 'Chave de Acesso',  'menu', '', 'configuracoes', 0, '_Configuracoes');
+			$this->cadastraPrograma("chave_acesso_grava.php", 'Sistema');
+			//
+			//Mensagem para o usuario
+			return "Cadastro do programa para chave de acesso";
+		}
+
+		private function versao_01_15(){
+			//
+			// 27/10/2024 Vinicius
+			//
+			$this->parametros->cadastraParametros("sistema: sendereco web do SAC", "https://sac.vfweb.cloud/", "Parametro usado para definir o endereco web do sistema utilizado com SAC"); 
+			//
+			//
+			//Mensagem para o usuario
+			return "Criação do parametro com o endereço do SAC";
+		}
+
+		private function versao_01_14(){
+			//
+			// 26/10/2024 Vinicius
+			//
+			$sql = "ALTER TABLE pessoas ADD pess_chave_pagto VARCHAR(255) NULL";
+			$this->db->executaSQL($sql); 
+			//
+			$sql = "ALTER TABLE pessoas ADD pess_vip varchar(5) DEFAULT 'NAO'";
+			$this->db->executaSQL($sql); 
+			//
+			$this->parametros->cadastraParametros("sistema: chave de pagamento", "", "Parametro usado para definir e identificar a chave de pagamento do sistema", "constante", "CHAVE_PAGTO"); 
+			//
+			//
+			//Mensagem para o usuario
+			return "Criação de campo e parametro para controle de pagamento no sistema pelo SAC";
+		}
+
 		private function versao_01_13(){
 			//
-			// 13/10/2021 Vinicius
+			// 13/10/2024 Vinicius
 			//
 			$sql = "CREATE TABLE IF NOT EXISTS agenda(
 						idagenda int(11) NOT NULL AUTO_INCREMENT,
@@ -134,7 +173,7 @@
 
 		private function versao_01_09(){
 			//
-			// 06/09/2023 Vinicius
+			// 06/09/2024 Vinicius
 			//
 			$sql = "ALTER TABLE pessoas ADD pess_cod_cliente VARCHAR(255) NULL";
 			$this->db->executaSQL($sql); 
@@ -149,7 +188,7 @@
 
 		private function versao_01_08(){
 			//
-			// 06/09/2023 Vinicius
+			// 06/09/2024 Vinicius
 			//
 			$sql = "ALTER TABLE programas ADD prog_modelo VARCHAR(255) NULL";
 			$this->db->executaSQL($sql); 
@@ -173,7 +212,7 @@
 
 		private function versao_01_06(){
 			//
-			// 14/07/2021 Vinicius
+			// 14/07/2023 Vinicius
 			//
 			$this->cadastraPrograma("contarec_sel.php", 'Relatório', 'Contas a Receber',  'menu', '', 'relatorios', 0, '_Relatorios');
 			$this->cadastraPrograma("contarec.php", 'Relatório');
@@ -196,7 +235,7 @@
 
 		private function versao_01_04(){
 			//
-			// 11/07/2021 Vinicius
+			// 11/07/2022 Vinicius
 			//
 			$this->cadastraPrograma("contapag_sel.php", 'Relatório', 'Contas a Pagar',  'menu', '', 'relatorios', 0, '_Relatorios');
 			$this->cadastraPrograma("contapag.php", 'Relatório');
@@ -207,7 +246,7 @@
 
 		private function versao_01_03(){
 			//
-			// 06/07/2021 Vinicius
+			// 06/07/2022 Vinicius
 			//
 			$this->cadastraPrograma("impressao_pedido.php", 'Impressões');
 			$this->cadastraPrograma("impressao_pedcompra.php", 'Impressões');
@@ -587,10 +626,10 @@
 			//
 			// 09/07/2021 Vinicius
 			//
-			$sql = "ALTER TABLE contarec ADD ctrc_idempresass INT NULL";
+			$sql = "ALTER TABLE contarec ADD ctrc_idempresas INT NULL";
 			$this->db->executaSQL($sql); 
 			//
-			$sql = "ALTER TABLE contapag ADD ctpg_idempresass INT NULL";
+			$sql = "ALTER TABLE contapag ADD ctpg_idempresas INT NULL";
 			$this->db->executaSQL($sql); 
 			//
 			//Mensagem para o usuario
@@ -1790,7 +1829,9 @@
 				if($manual) echo "Atualização finalizada!.<br>Obrigado!";
 				return;
 			}else {
+				$erro = error_get_last();
 				if($manual) echo "Erro ao baixar arquivos de atualização do sistema!";
+				if($manual) echo "<span class='Obs_claro'>" . $erro['message'] . "</span>";
 				return;
 			}
 		}
@@ -1920,10 +1961,23 @@
 				return;
 			}
 			//
+			// Defina o timeout para a conexão
+			ftp_set_option($conexaoFTP, FTP_TIMEOUT_SEC, 600);
+			//
 			// login
 			$resultLogin = ftp_login($conexaoFTP, $ftp_user_name, $ftp_user_pass);
 			if($resultLogin === false){
 				echo "Erro ao efetuar login no servidor!";
+				return;
+			}
+			//
+			if (!file_exists($nomeArquivoAtz_local)) {
+				echo "O arquivo local não foi localizado: $nomeArquivoAtz_local";
+				return;
+			}
+			//
+			if (filesize($nomeArquivoAtz_local) === 0) {
+				echo "O arquivo local está vazio: $nomeArquivoAtz_local";
 				return;
 			}
 			//
@@ -1935,7 +1989,10 @@
 				unlink($nomeArquivoAtzInfo_local);
 				unlink($nomeArquivoAtz_local);
 				//
-				echo "Erro ao enviar arquivo de atualização do sistema!";
+				$erro = error_get_last();
+				//
+				echo "Erro ao enviar arquivo de atualização do sistema! <br>";
+				echo "<span class='Obs_claro'>" . $erro['message'] . "</span>";
 				return;
 			}
 			//
@@ -1955,7 +2012,10 @@
 				unlink($nomeArquivoAtzInfo_local);
 				unlink($nomeArquivoAtz_local);
 				//
-				echo "Erro ao enviar arquivo com informações sobre a atualização!";	
+				$erro = error_get_last();
+				//
+				echo "Erro ao enviar arquivo com informações sobre a atualização! <br>";	
+				echo "<span class='Obs_claro'>" . $erro['message'] . "</span>";
 				return;
 			}   
 		}
@@ -1979,13 +2039,20 @@
 			//
 			$idprogramas = $this->db->getUltimoID();
 			//
-			$sql = "INSERT INTO grupos_acessos_programas (gap_idgrupos_acessos, gap_idprogramas, gap_executa)
-						SELECT idgrupos_acessos, {$idprogramas}, '{$pode_executar}' FROM grupos_acessos";
-			$this->db->executaSQL($sql);
-			//
-			if($tipo == 'menu' || $tipo == 'menuRaiz'){
-				$this->html->criaMenu('');
+			$sql = "SELECT * 
+					FROM grupos_acessos";
+			$res = $this->db->consultar($sql);
+			foreach($res as $reg){
+				$sql = "INSERT INTO grupos_acessos_programas (gap_idgrupos_acessos, gap_idprogramas, gap_executa)
+							VALUES({$reg['idgrupos_acessos']}, {$idprogramas}, '{$pode_executar}')";
+				$this->db->executaSQL($sql);
+				//
+				if($tipo == 'menu' || $tipo == 'menuRaiz'){
+					$this->html->criaMenu($reg['idgrupos_acessos']);
+				}
 			}
+			//
+			//
 		}
 
 	}

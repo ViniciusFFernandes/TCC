@@ -27,7 +27,7 @@
     exit;
   }
 
-  if ($_POST['operacao'] == "ativarDesativarProgram") {
+  if ($_POST['operacao'] == "ativarDesativarPrograma") {
     //
     // $db->beginTransaction();
     //
