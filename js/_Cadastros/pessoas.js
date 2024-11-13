@@ -282,3 +282,4 @@ function excluirTelefone(idtelefone){
     //buscaTelefones();
   }, "json");
 }
+

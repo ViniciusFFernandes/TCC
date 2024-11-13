@@ -70,13 +70,13 @@
 
 		public function mostraMensagem($tipo, $mensagem, $id = ''){
 			$msg = '
-			<div class="alert alert-' . $tipo . ' alert-dismissible" role="alert" style="margin: 0 auto; box-shadow: 1px 1px 5px black;">
-				<button type="button" id="botao_alerta" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				<center>' . $mensagem;
+			<div class="alert alert-' . $tipo . ' alert-dismissible" role="alert" style="margin: 10px auto; box-shadow: 1px 1px 5px black;padding: 12px 20px;text-align: center;">
+				<button type="button" id="botao_alerta" class="close closeMsg" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				' . $mensagem;
 			if (!empty($id)) {
 				$msg .= '(' . $id . ')';
 			}
-			$msg .= '</center> </div>';
+			$msg .= '</div>';
 			return $msg;
 		}
 

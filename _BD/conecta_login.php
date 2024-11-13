@@ -139,7 +139,7 @@ if($IGNORA_SESSAO != "SIM"){
 				if ($dadosChave["dataVencimentoTimestamp"] < $dadosChave["dataAtualTimestamp"]) {
 					//
 					if ($dadosChave["diferencaDias"] <= 30) {
-						$_SESSION["mensagemChavePagto"] = "Atenção: Sua chave de pagamento está vencida a " . intval($diferencaDias) . " dias.";
+						$_SESSION["mensagemChavePagto"] = "Atenção: Sua chave de pagamento está vencida a " . intval($dadosChave["diferencaDias"]) . " dias.";
 					}else{
 						//
 						//Busca uma chave atualizar para verificar se já possui uma nova chave

@@ -17,7 +17,12 @@
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
 
     <!-- CSS-->
+    <link href="js/jquery-ui-1.12.1/jquery-ui.css" rel="stylesheet">
+    <link href="css/animate.min.css" rel="stylesheet">
+
     <link href="css/padrao.css" rel="stylesheet">
+
+    <link rel="manifest" href="manifest.json">
 
 </head>
 
@@ -44,7 +49,7 @@
                                         <input type="hidden" class="form-control" id="operacao" name="operacao" value="logar">
                                         <input type="hidden" class="form-control" id="tamanhoTela" name="tamanhoTela" value="">
                                         <div class="form-group">
-                                            <input type="text" class="form-control form-control-user" id="usuario" name="usuario" placeholder="Insira seu usuario..." autofocus>
+                                            <input type="text" class="form-control form-control-user" id="usuario" name="usuario" placeholder="Insira seu usuario..." autofocus style="text-transform: none;">
                                         </div>
                                         <div class="form-group">
                                             <input type="password" class="form-control form-control-user" id="senha" name="senha" placeholder="Insira sua senha...">
@@ -71,17 +76,20 @@
 
     </div>
 
-    <!-- Bootstrap core JavaScript-->
+    <script src="js/jquery.min.js"></script>
+    <script src="js/jquery-ui-1.12.1/jquery-ui.js"></script>
+    <script src="js/bootbox/bootbox.min.js"></script>
     <script src="js/bootstrap.bundle.min.js"></script>
-
-    <!-- Core plugin JavaScript-->
     <script src="js/jquery.easing.min.js"></script>
 
-    <!-- Custom scripts for all pages-->
-    <script src="js/sb-admin-2.min.js"></script>
+    
+    <!-- Bootstrap core JavaScript-->
+    <!-- <script src="js/bootstrap.min.js"></script> -->
 
-    <script src="js/jquery.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
+    
+    <!-- Core plugin JavaScript-->
+
+
 
     <script>
         window.setTimeout(function(){
@@ -91,6 +99,79 @@
         $(function(){
             $("#tamanhoTela").val($(window).width());
         })
+        //
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('js/service-worker.js')
+                .then(() => console.log('Service Worker registrado com sucesso.'))
+                .catch((error) => console.error('Falha ao registrar o Service Worker:', error));
+        }
+        //
+        $(document).ready(function() {
+            let deferredPrompt;
+
+            // Verifica se o usuário já rejeitou o prompt de instalação anteriormente
+            if (localStorage.getItem('installRejected') === 'true') {
+                return; // Não exibe o prompt novamente
+            }
+
+            let isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
+  
+            if (isIOS) {
+                // Exibe o modal usando Bootbox
+                bootbox.dialog({
+                title: "Adicione este app à sua Tela de Início",
+                message: "Para uma melhor experiência, toque no ícone de compartilhamento do Safari e selecione 'Adicionar à Tela de Início'.",
+                buttons: {
+                    cancelar: {
+                        label: "Ok",
+                        className: 'btn-primary',
+                        callback: function() {
+                            localStorage.setItem('installRejected', 'true'); // Salva a rejeição
+                        }
+                    }
+                }
+                });
+            }else{
+                window.addEventListener('beforeinstallprompt', (e) => {
+                    e.preventDefault();
+                    deferredPrompt = e;
+
+                    // Exibe o modal usando Bootbox
+                    bootbox.dialog({
+                    title: "Instalar App VF Web",
+                    message: "Você pode instalar nosso app para acessá-lo rapidamente a partir da sua tela inicial.",
+                    buttons: {
+                        cancelar: {
+                        label: "Cancelar",
+                        className: 'btn-secondary',
+                        callback: function() {
+                            // console.log("Usuário cancelou a instalação.");
+                            localStorage.setItem('installRejected', 'true'); // Salva a rejeição
+                        }
+                        },
+                        instalar: {
+                        label: "Instalar",
+                        className: 'btn-primary',
+                        callback: function() {
+                            deferredPrompt.prompt();  // Exibe o prompt de instalação padrão
+                            deferredPrompt.userChoice.then((choiceResult) => {
+                            if (choiceResult.outcome === 'accepted') {
+                                // console.log('Usuário aceitou instalar o app.');
+                            } else {
+                                // console.log('Usuário rejeitou instalar o app.');
+                                localStorage.setItem('installRejected', 'true'); // Salva a rejeição
+                            }
+                            deferredPrompt = null;
+                            });
+                        }
+                        }
+                    }
+                    });
+                });
+            }
+            
+        });
+
     </script>
 
 </body>

@@ -32,7 +32,7 @@ class Tabelas{
 				$tabela .= "<td class='d-none d-sm-table-cell'><b>Código<b></td>";
 				$tabela .= "<td><b>Nome<b></td>";
 				$tabela .= "<td class='d-none d-sm-table-cell'><b>Endereço<b></td>";
-				$tabela .= "<td><b>Cidade<b></td>";
+				$tabela .= "<td class='d-none d-sm-table-cell'><b>Cidade<b></td>";
 			$tabela .= "</tr>";
 		$tabela .= "</thead>";
 	    foreach ($res as $reg) {
@@ -47,9 +47,9 @@ class Tabelas{
 				if ($linhaColorida) {$tabela .= " class='info'";}
 				$tabela .= ' onclick="abreCadastro(' . $reg['idpessoas'] . ', \'pessoas_edita.php\')" style="cursor:pointer" id="linhasBusca">
 	        <td width="6%" class="d-none d-sm-table-cell">' . $reg['idpessoas'] . '</td>
-	        <td>' . $reg['pess_nome'] . ' <br> <i style="font-size: 13px;">' . $db->retornaUmTel($reg['idpessoas']) . '</i> </td>
+	        <td>' . $reg['pess_nome'] . ' <div class="row"> <div class="col-6 d-block d-sm-none"><i style="font-size: 13px;">' . $cidadeEstado . '</i></div><div class="col-6"><i style="font-size: 13px;">' . $db->retornaUmTel($reg['idpessoas']) . '</i></div></div></td>
 	        <td class="d-none d-sm-table-cell">' . $reg['pess_endereco'] . '</td>
-	        <td>' . $cidadeEstado . '</td>
+	        <td class="d-none d-sm-table-cell">' . $cidadeEstado . '</td>
 	      </tr>';
 			if ($linhaColorida) {
 		    $linhaColorida = false;

@@ -20,6 +20,13 @@
     height: 70vh; /* 100% da altura da viewport */
   }
 }
+
+@media (max-width: 768px) {
+  .divMsg{
+    font-size: 0.9rem !important;
+  }
+}
+
 /* CSS padrao */
 body::-webkit-scrollbar {
   display: none
@@ -5284,8 +5291,8 @@ a.badge-dark:focus, a.badge-dark.focus {
 
 .alert-dismissible .close {
   position: absolute;
-  top: 0;
-  right: 0;
+  top: -2px;
+  right: -5px;
   z-index: 2;
   padding: 0.75rem 1.25rem;
   color: inherit;
