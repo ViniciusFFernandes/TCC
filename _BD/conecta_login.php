@@ -1,4 +1,15 @@
 <?php
+// Se o "Permanecer logado" estiver marcado
+if (isset($_POST['permanece_logado'])) {
+	// Define a duração do cookie para 30 dias (2592000 segundos)
+	session_set_cookie_params(2592000, '/'); // 30 dias
+	ini_set('session.gc_maxlifetime', 2592000); // 30 dias
+} else {
+	// Caso contrário, mantém o comportamento padrão (sessão expira no fechamento do navegador)
+	session_set_cookie_params(0, '/');
+	ini_set('session.gc_maxlifetime', 1440); // Expira após 24 minutos de inatividade, por exemplo
+}
+//
 session_start();
 error_reporting(E_ALL & ~E_NOTICE & ~E_WARNING);
 date_default_timezone_set('America/Sao_Paulo');

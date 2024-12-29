@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="pt">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="icon" type="image/x-icon" href="../imagens/favicon.ico">
+        <title>##nomeSistema##</title>
+
+        ##includes##
+        <script src="../js/html5-qrcode.min.js"></script>
+        <script src="../js/_Lancamentos/pdv.js"></script>
+        <script>
+            ##autoComplete_Produtos##
+        </script>
+    </head>
+
+    <body class="sidebar-toggled">
+        <div id="wrapper">
+            ##Menu##
+            <div id="content-wrapper" class="d-flex flex-column">
+                <div id="content">
+                    ##topBar##
+                    <div class="container-fluid">
+                        <div class="card shadow mb-4 border-left-primary">
+                            <div class="card-header py-3">
+                                <h6 class="m-0 font-weight-bold text-primary">PDV - Ponto de Venda</h6>
+                            </div>
+                            <div class="card-body">
+                                <div class="pdv-container">
+                                    <!-- Tabela de itens -->
+                                    <div class="pdv-itens">
+                                        <table class="table table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th>Produto</th>
+                                                    <th>Quantidade</th>
+                                                    <th>Preço Unitário (R$)</th>
+                                                    <th>Total (R$)</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="lista_itens">
+                                                <!-- Produtos adicionados aparecerão aqui -->
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                    <!-- Ações (Código de barras e finalização) -->'
+                                    <div class="card shadow mb-4">
+                                        <div class="card-header py-3">
+                                            <h6 class="m-0 font-weight-bold text-primary">Informações</h6>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="pdv-actions">
+                                                <form id="form_pdv" action="pdv_grava.php" method="POST" autocomplete="off">
+                                                    <div class="form-group">
+                                                        ##autoComplete_CampoProdutos##
+                                                    </div>
+                                                    <div class="form-group mt-4" align="center">
+                                                        <button type="button" onclick="abrirScamProduto()" class="btn btn-success btnScam" data-toggle="modal"><i class="fas fa-qrcode"></i> QR Code</button>
+                                                        <button type="button" onclick="" class="btn btn-primary btnScam" data-toggle="modal"><i class="fas fa-barcode"></i> Codigo de Barra</button>
+                                                    </div>
+                                                    <div class="form-group mt-4">
+                                                        <input type="text" id="total_geral" class="form-control" readonly placeholder="Total Venda">
+                                                    </div>
+                                                    <div class="form-group text-center mt-4">
+                                                        <button type="button" class="btn btn-success btn-block">Finalizar Venda</button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

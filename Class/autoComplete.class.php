@@ -65,7 +65,7 @@
 
 		}
 
-		public function criaCampos($campoTexto, $campoId, $placeholder){
+		public function criaCampos($campoTexto, $campoId, $placeholder, $exibeScam = false){
 			$campos = '<div class="input-group">
 						<input type="text" class="form-control" id="' . $campoTexto . '" name="' . $campoTexto . '" value="##' . $campoTexto . '##" placeholder="' . $placeholder . '">
 						<span class="input-group-addon" style="padding: 0x 6px;">
@@ -74,6 +74,7 @@
 					</div>';
 			return $campos;
 		}
+		
 
 	}
 

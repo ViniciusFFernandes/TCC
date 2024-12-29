@@ -31,6 +31,7 @@
                         </div>
                         <div class="card shadow mb-4 border-left-primary">
                         <div class="card-header py-3"> 
+                            <span class="float-right">##pcom_situacao##</span>
                             <h6 class="m-0 font-weight-bold text-primary">
                             Pedidos de Compra
                             <i class="fas fa-search text-dark" align="right" data-toggle="modal" title="Buscar Pedidos de Compra" data-target="#buscaCadastro" onclick="abreModalPesquisa()" style="cursor: pointer;"></i> 
@@ -41,15 +42,11 @@
                             <input type="hidden" name="id_cadastro" id="id_cadastro" value="##id_cadastro##">
                             <div class="row">
                                 <div class="col-lg-2 col-md-2 col-sm-4 col-6 pb-3">
-                                <div class="input-group">
-                                    <input type="text" class="form-control" id="idpedcompras" name="idpedcompras" value="##idpedcompras##" placeholder="Código" autofocus >
-                                    <span class="input-group-addon" style="cursor: pointer;" onclick="abrePedido()"><i class="fas fa-bolt text-warning"></i></span>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" id="idpedcompras" name="idpedcompras" value="##idpedcompras##" placeholder="Código" autofocus >
+                                        <span class="input-group-addon" style="cursor: pointer;" onclick="abrePedido()"><i class="fas fa-bolt text-warning"></i></span>
+                                    </div>
                                 </div>
-                                </div>
-                                <div class="col-lg-4 col-md-2 col-sm-8 col-6 pb-3 pt-2 text-right">
-                                ##pcom_situacao##
-                                </div>
-                                <div class="d-block d-sm-none clearfix"></div>
                                 <div class="col-lg-3 col-md-4 col-sm-6 col-7 pb-3">
                                     <input type="datetime-local" class="form-control" id="pcom_abertura" name="pcom_abertura" value="##pcom_abertura##" readonly disabled title="Data de Abertura">
                                 </div>

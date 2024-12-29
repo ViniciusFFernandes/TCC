@@ -112,3 +112,40 @@ function gravaItensFormula(){
           $("#tableItensFormula").append(data);
         }, "html");
 }
+
+function imprimirEtiqueta(link){
+  var idEnvio = '';
+  idEnvio = $("#id_cadastro").val();
+  //
+  var linkCompleto = link + '?id_cadastro=' + idEnvio;
+  //
+  var qte = 1;
+  //
+  bootbox.prompt({
+    title: "Informe a quantidade de etiquetas",
+    inputType: 'number',
+    value: 1,
+    buttons: {
+      confirm: {
+          label: 'Imprimir',
+          className: 'btn-primary'
+      },
+      cancel: {
+          label: 'Cancelar',
+          className: 'btn-secondary'
+      }
+    },
+    callback: function(result) {
+        if (result !== null) {
+            //
+            linkCompleto = linkCompleto + '&qte=' + result;
+            //
+            window.open(linkCompleto, '_blank');
+        }else {
+            // console.log("Operação cancelada pelo usuário.");
+        }
+    }
+  });
+
+  
+} 

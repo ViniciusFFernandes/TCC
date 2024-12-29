@@ -24,12 +24,12 @@ if ($_POST['operacao'] == "buscaCadastro") {
     $dados['idprodutos'] = "width='6%'";
     $dados['prod_nome'] = "";
     $dados['uni_sigla'] = "width='10%'";
-    $dados['grup_nome'] = "width='25%'";
+    // $dados['grup_nome'] = "width='25%'";
     //
     $cabecalho['Código'] = '';
     $cabecalho['Nome'] = '';
     $cabecalho['Unidade'] = '';
-    $cabecalho['Grupo'] = '';
+    // $cabecalho['Grupo'] = '';
     //
     echo $tabelas->geraTabelaBusca($res, $db, $dados, $paginaRetorno, $cabecalho);
     exit;

@@ -70,6 +70,7 @@
       $btnExcluir = '<button type="button" onclick="excluiCadastro()" class="btn btn-danger">Excluir</button>';
       $btnParcelar = '<button type="button" onclick="gerarParcelas()" id="btnGerarParcelas" class="btn btn-primary" ><i class="fas fa-percent"></i> Parcelar</button>';
       $btnNovoProduto = '<button type="button" onclick="limpaModalProd()" class="btn btn-success" data-toggle="modal" data-target="#modalProdutos"><i class="fas fa-plus"></i> Produtos</button>';
+      $btnNovoProdutoScam = '<button type="button" onclick="abrirScamProduto()" class="btn btn-success btnScam" data-toggle="modal"><i class="fas fa-qrcode"></i></button>';
     }
     //
     $readonly_parcelas = "";
@@ -124,6 +125,7 @@
   $html = str_replace("##btnExcluir##", $btnExcluir, $html);
   $html = str_replace("##btnFechar##", $btnFechar, $html);
   $html = str_replace("##btnNovoProduto##", $btnNovoProduto, $html);
+  $html = str_replace("##btnNovoProdutoScam##", $btnNovoProdutoScam, $html);
   $html = str_replace("##btnParcelar##", $btnParcelar, $html);
   $html = str_replace("##btnGravarReabrir##", $btnGravarReabrir, $html);
   $html = str_replace("##btnImprimir##", $btnImprimir, $html);

@@ -8,10 +8,6 @@
   // $html = new html($db, $util);
   $produtos = new produtos($db);
   //
-  //Gera o autoComplete 
-  $autoComplete = new autoComplete();
-  $codigo_js = $autoComplete->gerar("produtos", "pfor_idprodutos", "produtos LEFT JOIN unidades ON (prod_idunidades = idunidades)", "prod_nome", "idprodutos", "", "WHERE prod_tipo_produto = 'Materia Prima' AND UPPER(prod_nome) LIKE UPPER('##valor##%')");
-  //
   //Operações do banco de dados
   if(!empty($_REQUEST['id_cadastro'])){
     $sql = "SELECT * 
@@ -39,6 +35,7 @@
   if(!empty($reg['idprodutos'])){ 
     //
     $btnExcluir = '<button type="button" onclick="excluiCadastro()" class="btn btn-danger">Excluir</button>';
+    $btnImprimir = '<button type="button" class="btn btn-primary" data-target="#modelosImprimir" data-toggle="modal">Imprimir</button>';
     //
     $comboBoxTipoPR   = $html->defineSelected("Produto Revenda", $reg['prod_tipo_produto']);
     $comboBoxTipoMP   = $html->defineSelected("Materia Prima", $reg['prod_tipo_produto']);
@@ -63,7 +60,11 @@
     $tabs .= '<div class="tab-content">
                 <div id="divVazia" class="tab-pane fade"></div>';
     if($reg['prod_tipo_produto'] == "Producao Propria"){
-       $tabs .= $produtos->getItensFormulaEdita($reg['idprodutos']);
+      $tabs .= $produtos->getItensFormulaEdita($reg['idprodutos']);
+      //
+      //Gera o autoComplete 
+      $autoComplete = new autoComplete();
+      $codigo_js = $autoComplete->gerar("produtos", "pfor_idprodutos", "produtos LEFT JOIN unidades ON (prod_idunidades = idunidades)", "prod_nome", "idprodutos", "", "WHERE prod_tipo_produto = 'Materia Prima' AND UPPER(prod_nome) LIKE UPPER('##valor##%')");
     }
     $tabs .= '</div>';
     //
@@ -104,6 +105,7 @@
   $html = str_replace("##autoComplete_Produtos##", $codigo_js, $html);
   $html = str_replace("##tabsProdutos##", $tabs, $html);
   $html = str_replace("##btnExcluir##", $btnExcluir, $html);
+  $html = str_replace("##btnImprimir##", $btnImprimir, $html);
   echo $html;
   exit;
 ?>

@@ -11865,3 +11865,102 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
   background: #dad7d7;
   border-radius: 10px;
 }
+
+.btnScam{
+  padding: 10px 15px;
+}
+
+.img-clickable {
+  cursor: pointer;
+  transition: transform 0.3s ease;
+  max-height: 100px;
+  object-fit: contain;
+}
+
+.img-clickable:hover {
+  transform: scale(1.05);
+}
+
+.btn-delete {
+  z-index: 10;
+  cursor: pointer;
+  position: absolute; 
+  top: 5px; right: 0px;
+  color: red;
+}
+
+.divAnexosAgenda{
+  min-width: 200px;
+  min-height: 100px;
+  max-width: 200px;
+  max-height: 100px;
+  display: flex; /* Ativa Flexbox */
+  justify-content: center; /* Alinha horizontalmente ao centro */
+  align-items: center; /* Alinha verticalmente ao centro */
+  height: 150px; /* Define altura para centralização */
+  position: relative; /* Mantém o comportamento relativo */
+}
+
+.modal-anexos-agenda {
+  display: flex;
+  align-items: center; /* Centraliza verticalmente */
+  justify-content: center; /* Centraliza horizontalmente */
+  min-height: 100vh; /* Garante que o modal seja centralizado na tela inteira */
+}
+
+.modal-content-anexos-agenda {
+  max-height: 90vh; /* Evita que o modal ultrapasse o tamanho da tela */
+  overflow-y: auto; /* Permite rolagem se o conteúdo for maior que a tela */
+}
+
+.modalVideoPlayer{
+  max-height: 80vh; /* Evita que o modal ultrapasse o tamanho da tela */
+}
+
+.modalImagemVisualzacao{
+  max-width: 100%; /* Ajusta a largura da imagem ao tamanho do modal */
+  max-height: 80vh; /* Ajusta a altura máxima para caber na viewport */
+  object-fit: contain; /* Garante que a imagem não distorça */
+}
+
+@media (max-width: 768px) {
+  .modalVideoPlayer{
+    max-height: 55vh; /* Evita que o modal ultrapasse o tamanho da tela */
+  }
+  /* .modalImagemVisualzacao{
+    max-height: 80vh;
+  } */
+}
+
+.progress-bar {
+  background-color: #007bff;
+}
+
+.btn .disabled {
+  pointer-events: none;
+  background-color: #ccc;
+  color: #666;
+  cursor: not-allowed;
+}
+
+.pdv-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.pdv-itens {
+  flex: 3;
+  max-height: 500px;
+  overflow-y: auto;
+}
+
+.pdv-actions {
+  flex: 1;
+  padding-left: 20px;
+}
+
+.table th, .table td {
+  text-align: center;
+  vertical-align: middle;
+}

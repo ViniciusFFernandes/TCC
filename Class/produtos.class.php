@@ -107,5 +107,21 @@ class produtos{
 		//
 		return $reg;
 	}
+
+	public function etiquetaQrCodePadrao($qrcode, $nomeEmpresa, $cnpjEmpresa, $enderecoEmpresa, $cidadeEmpresa, $ufEmpresa, $cepEmpresa, $telefoneEmpresa, $logoRelatorios, $tamanhoLogo, $precoProd){
+		$html = '';
+		//
+		$html .= '<div class="label">';
+			$html .= '<img src="../uploads/' . $logoRelatorios . '" class="pull-left logo" width="' . $tamanhoLogo . '">';
+			$html .= '<div><strong>' . $cidadeEmpresa . ' - ' . $ufEmpresa . '</strong></div>';
+			$html .= '<img class="qrcode" src="data:image/png;base64,' . $qrcode . '">';
+			$html .= '<div><strong>NÃO TROCAMOS PEÇAS</strong></div>';
+			$html .= '<div class="line"></div>';
+			$html .= '<div class="preco"><strong>R$ ' . $precoProd . '</strong></div>';
+			$html .= '<div class="textoTroca"><strong>VERIFIQUE SEU PRODUTO NO ATO DA COMPRA</strong></div>';
+		$html .= '</div>';
+		//
+		return $html;
+	}
 }
 ?>

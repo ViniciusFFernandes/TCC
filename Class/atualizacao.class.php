@@ -4,7 +4,7 @@
 	require_once("util.class.php");
 
 	class Atualizacao {
-		private $ultimaVersao = 1.16;
+		private $ultimaVersao = 1.18;
 		private $db;
 		private $parametros;
 		private $util;
@@ -77,6 +77,35 @@
 		//////////////////////////////////////
 		//Abaixo estão as versões do sistema//
 		//////////////////////////////////////
+
+		private function versao_01_18(){
+			//
+			// 13/10/2024 Vinicius
+			//
+			$sql = "CREATE TABLE IF NOT EXISTS agenda_anexos(
+						idagenda_anexos int(11) NOT NULL AUTO_INCREMENT,
+						agan_idagenda int(11) NOT NULL,
+						agan_nome_original VARCHAR(255) NULL,
+						agan_nome_sistema VARCHAR(255) NULL,
+						agan_tipo_arquvo VARCHAR(255) NULL,
+						agan_caminho VARCHAR(255) NULL,
+						PRIMARY KEY (idagenda_anexos)
+					)ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;";
+			$this->db->executaSQL($sql);
+			//
+			//Mensagem para o usuario
+			return "Criação da tabela de anexos da agenda";
+		}
+
+		private function versao_01_17(){
+			//
+			// 27/10/2024 Vinicius
+			//
+			$this->cadastraPrograma("impressao_etiquetas_qrcode.php", 'Impressões');
+			//
+			//Mensagem para o usuario
+			return "Cadastro de programas para impressão de etiquetas";
+		}
 
 		private function versao_01_16(){
 			//
@@ -1512,7 +1541,7 @@
 			//
 			// 24/02/2020 Vinicius
 			//
-			$this->parametros->cadastraParametros("sistema: busca atualizacoes automaticamente", "NAO", "Parametro usado para que o sistema se atualize sozinho", "parametro"); 
+			$this->parametros->cadastraParametros("sistema: busca atualizacoes automaticamente", "SIM", "Parametro usado para que o sistema se atualize sozinho", "parametro"); 
 			//
 			//Mensagem para o usuario
 			return "Criação de parametro para atualizar o sistema automaticamente";

@@ -79,21 +79,23 @@
                     //
                     foreach($res AS $reg){
                         $div .= '<div class="row border-prod">';
-                            $div .= '<div class="col-lg-2 col-sm-12 col-md-12 col-12 pt-2">';
+                            $div .= '<div class="col-lg-3 col-sm-12 col-md-12 col-12 pt-2">';
                                 $div .= $reg['idprodutos'] . ' - ' . $reg['prod_nome'];
-                                $div .= '<i style="float: right;" class="pointer fas fa-trash-alt pl-1 d-block d-lg-none"  onclick="excluiItem(' . $reg['idpedidos_itens'] . ')"></i>';
-                                $div .= '<i style="float: right;" class="pointer far fa-edit pr-1 d-block d-lg-none" onclick="editarItem(' . $reg['idpedidos_itens'] . ')"></i>';
+                                if($reg["ped_situacao"] == "Aberto"){
+                                    $div .= '<i style="float: right;" class="pointer fas fa-trash-alt pl-1 d-block d-lg-none"  onclick="excluiItem(' . $reg['idpedidos_itens'] . ')"></i>';
+                                    $div .= '<i style="float: right;" class="pointer far fa-edit pr-1 d-block d-lg-none" onclick="editarItem(' . $reg['idpedidos_itens'] . ')"></i>';
+                                }
                                 $div .= '<div class="row">';
-                                    $div .= '<div class="col-6 col-sm-6 col-md-6d-block d-lg-none dadosProdPed">';
+                                    $div .= '<div class="col-6 col-sm-6 col-md-6 d-block d-lg-none dadosProdPed">';
                                         $div .= 'Qte: ' . $this->util->formataNumero($reg['peit_qte']);
                                     $div .= '</div>';
-                                    $div .= '<div class="col-6 col-sm-6 col-md-6d-block d-lg-none dadosProdPed">';
+                                    $div .= '<div class="col-6 col-sm-6 col-md-6 d-block d-lg-none dadosProdPed">';
                                         $div .= 'Unitário: ' . $this->util->formataMoeda($reg['peit_vlr_unitario']);
                                     $div .= '</div>';
-                                    $div .= '<div class="col-6 col-sm-6 col-md-6d-block d-lg-none dadosProdPed">';
+                                    $div .= '<div class="col-6 col-sm-6 col-md-6 d-block d-lg-none dadosProdPed">';
                                         $div .= 'Desconto: ' . $this->util->formataMoeda($reg['peit_valor_desconto']);
                                     $div .= '</div>';
-                                    $div .= '<div class="col-6 col-sm-6 col-md-6d-block d-lg-none dadosProdPed">';
+                                    $div .= '<div class="col-6 col-sm-6 col-md-6 d-block d-lg-none dadosProdPed">';
                                         $div .= 'Total: ' . $this->util->formataMoeda($reg['peit_total_item']);
                                     $div .= '</div>';
                                 $div .= '</div>';
@@ -180,8 +182,10 @@
                             $div .= '</div>';
                             $div .= '<div class="col-lg-1 col-md-12 col-sm-12 col-12 pt-2">';
                                 $div .=  '<span class="d-lg-none">' . $reg['pcon_vencimento_dias'] . ' - </span>' . $this->util->convertData($reg['pcon_vencimento']);
-                                $div .= '<i style="float: right;" class="pointer fas fa-trash-alt pl-1 d-block d-lg-none"  onclick="excluiConta(' . $reg['idpedidos_contas'] . ')"></i>';
-                                $div .= '<i style="float: right;" class="pointer far fa-edit pr-1 d-block d-lg-none" onclick="editarConta(' . $reg['idpedidos_contas'] . ')"></i>';
+                                if($reg["ped_situacao"] == "Aberto"){
+                                    $div .= '<i style="float: right;" class="pointer fas fa-trash-alt pl-1 d-block d-lg-none"  onclick="excluiConta(' . $reg['idpedidos_contas'] . ')"></i>';
+                                    $div .= '<i style="float: right;" class="pointer far fa-edit pr-1 d-block d-lg-none" onclick="editarConta(' . $reg['idpedidos_contas'] . ')"></i>';
+                                }
                                 $div .= '<div class="row">';
                                     $div .= '<div class="col-6 col-sm-6 col-md-6 d-block d-lg-none dadosContasPed">';
                                         $div .= 'Conta: ' . $reg['cc_nome'];

@@ -1,0 +1,140 @@
+@page {
+    margin: 1mm; /* Remove margens padrão da impressora */
+    size: A4; /* Define o tamanho como A4 */
+}
+
+@media print {
+    body {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        height: 100%;
+    }
+
+    .page {
+        color: #000;
+        width: 100%;
+        height: 100%;
+        display: grid;
+        grid-template-columns: repeat(5, 1fr); /* 4 colunas, ajusta automaticamente */
+        grid-template-rows: repeat(6, auto); /* 5 linhas, ajusta a altura automaticamente */
+        gap: 2mm; /* Diminui o espaçamento entre as etiquetas na vertical e horizontal */
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    .label {
+        width: 50mm; /* Largura da etiqueta */
+        height: 58mm; /* Altura da etiqueta para caber 5 linhas */
+        border: 1px solid #000; /* Borda para visualização */
+        box-sizing: border-box;
+        padding: 5mm; /* Margem interna */
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        font-size: 10px; /* Ajuste do tamanho da fonte */
+        overflow: hidden; /* Evita que o conteúdo saia da caixa */
+        page-break-inside: avoid; /* Garante que as etiquetas não quebrem no meio */
+    }
+
+    .label div {
+        margin-bottom: 1mm; /* Espaçamento entre as linhas de conteúdo */
+    }
+
+    .line {
+        border-bottom: 1px dashed #000; /* Linha tracejada */
+        width: 100%;
+    }
+
+    .preco {
+        font-size: 18px; /* Tamanho do preço */
+        margin-bottom: 0;
+        position: relative;
+        top: -2px;
+    }
+
+    .logo {
+        position: relative;
+        top: 11px;
+    }
+
+    .qrcode {
+        position: relative;
+        top: -5px;
+    }
+
+    .textoTroca {
+        font-size: 8px;
+        position: relative;
+        top: -5px;
+    }
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.page {
+    color: #000;
+    width: 100%;
+    height: 100%;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr); /* 4 colunas, ajusta automaticamente */
+    grid-template-rows: repeat(6, auto); /* 5 linhas, ajusta a altura automaticamente */
+    gap: 2mm; /* Diminui o espaçamento entre as etiquetas na vertical e horizontal */
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.label {
+    width: 50mm; /* Largura da etiqueta */
+    height: 58mm; /* Altura da etiqueta para caber 5 linhas */
+    border: 1px solid #000; /* Borda para visualização */
+    box-sizing: border-box;
+    padding: 5mm; /* Margem interna */
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: 10px; /* Ajuste do tamanho da fonte */
+    overflow: hidden; /* Evita que o conteúdo saia da caixa */
+    page-break-inside: avoid; /* Garante que as etiquetas não quebrem no meio */
+}
+
+.label div {
+    margin-bottom: 1mm; /* Espaçamento entre as linhas de conteúdo */
+}
+
+.line {
+    border-bottom: 1px dashed #000; /* Linha tracejada */
+    width: 100%;
+}
+
+.preco {
+    font-size: 18px; /* Tamanho do preço */
+    margin-bottom: 0;
+    position: relative;
+    top: -2px;
+}
+
+.logo {
+    position: relative;
+    top: 11px;
+}
+
+.qrcode {
+    position: relative;
+    top: -5px;
+}
+
+.textoTroca {
+    font-size: 8px;
+    position: relative;
+    top: -5px;
+}
