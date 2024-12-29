@@ -11964,3 +11964,9 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
   text-align: center;
   vertical-align: middle;
 }
+
+@media print {
+  .page-break {
+    page-break-before: always; /* Força a quebra antes do elemento */
+  }
+}
